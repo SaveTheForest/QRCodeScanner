@@ -16,8 +16,8 @@ export default function Routes() {
               return <Entypo name="clock" size={size} color={color} />;
             }
           },
-          tabBarActiveTintColor: "green",
-          tabBarInactiveTintColor: "blue",
+          tabBarActiveTintColor: "#725AEC",
+          tabBarInactiveTintColor: "#180869",
           headerShown: false,
         })}
       >
