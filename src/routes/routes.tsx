@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import Home from "../pages/Home";
 import Historic from "../pages/Historic";
 export default function Routes() {
@@ -13,7 +13,13 @@ export default function Routes() {
             if (route.name === "Read") {
               return <AntDesign name="qrcode" size={size} color={color} />;
             } else if (route.name === "Historic") {
-              return <Entypo name="clock" size={size} color={color} />;
+              return (
+                <MaterialCommunityIcons
+                  name="history"
+                  size={size}
+                  color={color}
+                />
+              );
             }
           },
           tabBarActiveTintColor: "#725AEC",

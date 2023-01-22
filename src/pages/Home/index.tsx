@@ -4,10 +4,18 @@ import { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Slider from "@react-native-community/slider";
-import { Alert, Linking, Text } from "react-native";
+import {
+  Alert,
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 import {
+  CamOff,
   FlashOffIcon,
   FlashOnIcon,
   ReverseCam,
@@ -16,6 +24,26 @@ import {
 } from "../../icons";
 
 //CRIAR UMA TELA PARA EXIBIR AS INFORMAÇÕES AO SCANNEAR UM QR CODE
+
+/*
+LOGICA DE DELETAR
+remove_user = async(userid) => {
+    try{
+        let usersJSON= await AsyncStorage.getItem('users');
+        let usersArray = JSON.parse(usersJSON);
+        alteredUsers = usersArray.filter(function(e){
+            return e.id !== userid.id
+
+        })
+        AsyncStorage.setItem('users', JSON.stringify(alteredUsers));
+        this.setState({
+           users:alteredUsers
+        })
+    }
+    catch(error){
+        console.log(error)
+    }
+}; */
 
 export default function Home() {
   const [typeCam, setTypeCam] = useState(CameraType.back);
@@ -56,7 +84,7 @@ export default function Home() {
       const previousData = response ? JSON.parse(response) : [];
       const DATA = [...previousData, newData];
       const result = DATA ? JSON.stringify(DATA) : DATA;
-      console.log(result);
+
       await AsyncStorage.setItem("@save:data", result);
     } catch (e) {
       console.log(e);
@@ -65,7 +93,7 @@ export default function Home() {
 
   const onScanned = async ({ type, data }: any) => {
     setScanned(true);
-    console.log(type);
+
     writeDataBase(data);
     function scannerReady() {
       setTimeout(Timeout, 2000);
@@ -87,51 +115,90 @@ export default function Home() {
       },
     ]);
   };
-
+  const getBarCodeScannerPermissions = async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    requestPermission(status);
+  };
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      requestPermission(status);
-    };
-
     getBarCodeScannerPermissions();
   }, []);
 
   return (
     <S.Container>
-      {isVisible ? (
-        <>
-          <S.ContainerButtons>
-            <S.Button onPress={handleToarch}>
-              {toarch == "off" ? FlashOffIcon : FlashOnIcon}
-            </S.Button>
-            <S.Button onPress={handleReverveCam}>{ReverseCam}</S.Button>
-          </S.ContainerButtons>
-          <S.ContainerSlider>
-            {ZoomMinus}
-            <Slider
-              onValueChange={(value) => setZoom(value)}
-              style={{ width: 250, height: 40 }}
-              minimumValue={0}
-              maximumValue={1}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
+      {permission === "granted" ? (
+        isVisible ? (
+          <>
+            <S.ContainerButtons>
+              <View
+                style={{
+                  alignSelf: "center",
+                  backgroundColor: "#283231",
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  borderRadius: 10,
+                  opacity: 0.5,
+                }}
+              />
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "space-around",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <S.Button onPress={handleToarch}>
+                  {toarch == "off" ? FlashOffIcon : FlashOnIcon}
+                </S.Button>
+                <S.Button onPress={handleReverveCam}>{ReverseCam}</S.Button>
+              </View>
+            </S.ContainerButtons>
+
+            <S.ContainerSlider>
+              {ZoomMinus}
+              <Slider
+                onValueChange={(value) => setZoom(value)}
+                style={{ width: 250, height: 40 }}
+                minimumValue={0}
+                maximumValue={1}
+                minimumTrackTintColor="#FFFFFF"
+                maximumTrackTintColor="#000000"
+                thumbTintColor="#725AEC"
+              />
+              {ZoomMore}
+            </S.ContainerSlider>
+
+            <Camera
+              zoom={zoom}
+              type={typeCam}
+              ratio={"16:9"}
+              style={[
+                StyleSheet.absoluteFillObject,
+                { width: "100%", flex: 1 },
+              ]}
+              flashMode={toarch}
+              onBarCodeScanned={scanned ? undefined : onScanned}
+              barCodeScannerSettings={{
+                barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+              }}
             />
-            {ZoomMore}
-          </S.ContainerSlider>
-          <Camera
-            zoom={zoom}
-            type={typeCam}
-            style={{ width: "100%", height: "80%" }}
-            flashMode={toarch}
-            onBarCodeScanned={scanned ? undefined : onScanned}
-            barCodeScannerSettings={{
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-            }}
-          />
-        </>
+          </>
+        ) : null
       ) : (
-        <Text>aaa</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text
+            style={{ fontSize: 15, marginVertical: 30, textAlign: "center" }}
+          >
+            Allow the app to access your camera for it to work. {"\n"}
+            Click on the camera to request permission
+          </Text>
+          <TouchableOpacity onPress={getBarCodeScannerPermissions}>
+            {CamOff}
+          </TouchableOpacity>
+        </View>
       )}
     </S.Container>
   );
