@@ -4,7 +4,7 @@ import Routes from "./src/routes/routes";
 export default function App() {
   return (
     <>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle={"dark-content"} />
       <Routes />
     </>
   );

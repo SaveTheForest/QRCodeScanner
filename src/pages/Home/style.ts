@@ -7,10 +7,16 @@ export const Container = styled.View`
 export const ContainerButtons = styled.View`
   width: 100%;
   height: 8%;
-  bottom: 8%;
+
   flex-direction: row;
   justify-content: space-around;
 
   align-items: center;
 `;
 export const Button = styled.TouchableOpacity``;
+
+export const ContainerSlider = styled.View`
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+`;
