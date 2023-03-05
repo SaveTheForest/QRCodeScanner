@@ -10,11 +10,11 @@
 
 Imagens
 
-<div>
+<div style="flex-direction: row">
   <img style="margin: 5px" alt="home" src="https://github.com/SaveTheForest/QRCodeScanner/blob/main/src/assets/Screenshot_2023-03-05-11-14-40-283_com.qrcodescanner.jpg?raw=true" 
-  width="1000">
+  width="350">
     <img style="margin: 5px" alt="home" src="https://github.com/SaveTheForest/QRCodeScanner/blob/main/src/assets/Screenshot_2023-03-05-11-14-48-531_com.qrcodescanner.jpg?raw=true" 
-  width="1000">
+  width="350">
 
 </div>
 
@@ -27,7 +27,8 @@ O projeto foi feito utilizando das seguintes tecnologias
 - Expo
 - React Native
 - Styled-Components
-- ***
+- EXPO CAM
+- Async Storage
 
 ## Download
 
