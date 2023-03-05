@@ -23,28 +23,6 @@ import {
   ZoomMore,
 } from "../../icons";
 
-//CRIAR UMA TELA PARA EXIBIR AS INFORMAÇÕES AO SCANNEAR UM QR CODE
-
-/*
-LOGICA DE DELETAR
-remove_user = async(userid) => {
-    try{
-        let usersJSON= await AsyncStorage.getItem('users');
-        let usersArray = JSON.parse(usersJSON);
-        alteredUsers = usersArray.filter(function(e){
-            return e.id !== userid.id
-
-        })
-        AsyncStorage.setItem('users', JSON.stringify(alteredUsers));
-        this.setState({
-           users:alteredUsers
-        })
-    }
-    catch(error){
-        console.log(error)
-    }
-}; */
-
 export default function Home() {
   const [typeCam, setTypeCam] = useState(CameraType.back);
   const [permission, requestPermission] = useState({});
@@ -55,7 +33,6 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       setIsVisible(true);
-
       return () => {
         setIsVisible(false);
       };
@@ -102,8 +79,12 @@ export default function Home() {
         setScanned(false);
       }
     }
+    const goLink = async () => {
+      scannerReady();
 
-    Alert.alert("You want open link?", `Linking:${data}`, [
+      Linking.openURL(data).catch((e) => console.log(e));
+    };
+    Alert.alert("You want open link?", `${data}`, [
       {
         text: "Cancel",
         onPress: () => scannerReady(),
@@ -111,7 +92,7 @@ export default function Home() {
       },
       {
         text: "Yes",
-        onPress: () => Linking.openURL(data).finally(() => setScanned(false)),
+        onPress: () => goLink(),
       },
     ]);
   };
