@@ -11,7 +11,9 @@
 Imagens
 
 <div>
-  <img style="margin: 5px" alt="home" src="" 
+  <img style="margin: 5px" alt="home" src="https://github.com/SaveTheForest/QRCodeScanner/blob/main/src/assets/Screenshot_2023-03-05-11-14-40-283_com.qrcodescanner.jpg?raw=true" 
+  width="1000">
+    <img style="margin: 5px" alt="home" src="https://github.com/SaveTheForest/QRCodeScanner/blob/main/src/assets/Screenshot_2023-03-05-11-14-48-531_com.qrcodescanner.jpg?raw=true" 
   width="1000">
 
 </div>
@@ -31,6 +33,6 @@ O projeto foi feito utilizando das seguintes tecnologias
 
 Segue o link para download do APK (android)
 
-[Download apk]()
+[Download apk](https://github.com/SaveTheForest/QRCodeScanner/raw/main/src/assets/apk/application-43473c7f-c308-4adb-a325-fb52929bbe4e.apk)
 
 Desenvolvido por Jhonata Carvalho
